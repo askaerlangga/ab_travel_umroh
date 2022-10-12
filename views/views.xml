@@ -1,0 +1,51 @@
+<odoo>
+  <data>
+
+    <!-- Jamaah -->
+
+
+
+
+    <!-- Action/Event Produk -->
+
+    <record id="sale.product_template_action" model="ir.actions.act_window">
+      <field name="name">Produk</field>
+    </record>
+
+    <!-- Action/Event Paket Produk -->
+
+    <record id="mrp.mrp_bom_form_action" model="ir.actions.act_window">
+      <field name="name">Paket Produk</field>
+    </record>
+
+    <!-- Action/Event Jamaah -->
+
+    <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+
+    </record>
+
+    <!-- Menu Dashboard -->
+
+    <menuitem id="menu_dashboard_travel_umroh" name="Travel Umroh" web_icon="ab_travel_umroh,static/description/icon.png"/>
+
+    <!-- Menu Bar Travel -->
+
+    <menuitem id="menu_bar_travel_umroh" name="Master Data" parent="menu_dashboard_travel_umroh"/>
+
+    <!-- Menu Item Travel-->
+
+    <menuitem id="menu_item_produk" name="Produk" parent="menu_bar_travel_umroh" action="sale.product_template_action"/>
+
+    <menuitem id="menu_item_paket_produk" name="Paket Produk" parent="menu_bar_travel_umroh" action="mrp.mrp_bom_form_action"/>
+
+    <menuitem id="menu_item_jamaah" name="Jamaah" parent="menu_bar_travel_umroh" action="account.res_partner_action_customer"/>
+
+    <menuitem id="menu_item_airlines" name="Airlines" parent="menu_bar_travel_umroh" action="sale.product_template_action"/>
+
+    <menuitem id="menu_item_hotels" name="Hotels" parent="menu_bar_travel_umroh" action="sale.product_template_action"/>
+
+    <!-- Menu Bar Transaction -->
+    <menuitem id="menu_bar_transaction" name="Transaction" parent="menu_dashboard_travel_umroh"/>
+
+  </data>
+</odoo>
