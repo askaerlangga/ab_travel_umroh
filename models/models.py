@@ -2,16 +2,7 @@
 
 from odoo import models, fields, api
 
-
-class TravelUmroh(models.Model):
-    _name = 'travel.umroh'
-    _description = 'Travel Umroh'
-
-    name = fields.Char(string='Judul', required=True)
-    description = fields.Text(string='Keterangan')
-    
-
-class TravelUmrohPartner(models.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     # Additional Information
@@ -65,7 +56,56 @@ class TravelUmrohPartner(models.Model):
     tanggal_expired = fields.Date('Tanggal Expired')
 
     # Scan Document
-    scan_passpor = fields.Binary('Scan Passpor')
-    scan_ktp = fields.Binary('Scan KTP')
-    scan_buku_nikah = fields.Binary('Scan Buku Nikah')
-    scan_kartu_keluarga = fields.Binary('Scan Kartu Keluarga')
+    scan_passpor = fields.Image('Scan Passpor')
+    scan_ktp = fields.Image('Scan KTP')
+    scan_buku_nikah = fields.Image('Scan Buku Nikah')
+    scan_kartu_keluarga = fields.Image('Scan Kartu Keluarga')
+
+    # Travel
+    hotels = fields.Boolean('Hotels')
+    airlines = fields.Boolean('Airlines')
+
+    tanggal_berangkat = fields.Date('Tanggal berangkat')
+    tanggal_kembali = fields.Date('Tanggal Kembali', required=True)
+    sale_id = fields.Many2one('product.product', string='Sale')
+    kota_id = fields.Many2one('res.partner', string='Kota')
+    package_id = fields.Many2one('product.product', string='Package')
+    quota = fields.Integer('Quota')
+    remaining_quota = fields.Integer('Remaining Quota')
+    quota_progress = fields.Float('Quota Progress')
+    hotels_line = fields.One2many('hotels.lines', 'hotels_id', string='Hotels')
+
+
+class TravelPackage(models.Model):
+    _name = 'travel.package'
+    _description = 'Travel Package'
+
+    @api.onchange('quota')
+    def _onchange_quota(self):
+        self.remaining_quota = self.quota
+
+    tanggal_berangkat = fields.Date('Tanggal berangkat', required=True)
+    tanggal_kembali = fields.Date('Tanggal Kembali', required=True)
+    
+    sale_id = fields.Many2one('product.product', string='Sale')
+    package_id = fields.Many2one('product.product', string='Package')
+
+    quota = fields.Integer('Quota')
+    remaining_quota = fields.Integer('Remaining Quota')
+    quota_progress = fields.Float('Quota Progress')
+
+    hotels_line = fields.One2many('hotels.lines', 'hotels_id', string='Hotels')
+
+
+class HotelLines(models.Model):
+    _name = 'hotels.lines'
+
+    hotels_id = fields.Many2one('res.partner', string='Nama Hotel', required=True, domain=[('hotels', '=', True)])
+    check_in = fields.Date('Check In Hotel', required=True)
+    check_out = fields.Date('Check Out Hotel', required=True)
+    kota_id = fields.Many2one('res.partner', string='Kota')
+    # kota_id = fields.Many2one('res.city', string='Kota', related='hotels_id.city')
+
+    @api.onchange('hotels_id')
+    def _onchange_hotels_id(self):
+        pass
