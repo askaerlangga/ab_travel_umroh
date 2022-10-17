@@ -100,18 +100,61 @@
             <notebook>
               <page string="Hotel Lines">
                 <field name="hotels_line">
-                  <tree string="Hotel" editable="top">
-                    <field name="hotels_id"/>
+                  <tree string="Hotel Lines" editable="top">
+                    <field name="hotels_name"/>
                     <field name="check_in"/>
                     <field name="check_out"/>
-                    <field name="kota_id" readonly="1"/>
+                    <field name="kota" readonly="1"/>
                   </tree>
                 </field>
               </page>
-              <page string="Airline Lines"></page>
-              <page string="Schedule Lines"></page>
-              <page string="Manifest"></page>
-              <page string="HPP Lines"></page>
+              <page string="Airline Lines">
+                <field name="airline_line">
+                  <tree string="Airline" editable="top">
+                    <field name="airline_name"/>
+                    <field name="tanggal_berangkat"/>
+                    <field name="kota_asal"/>
+                    <field name="kota_tujuan"/>
+                  </tree>
+                </field>
+              </page>
+              <page string="Schedule Lines">
+                <field name="schedule_line">
+                  <tree string="Schedule" editable="top">
+                    <field name="schedule_name"/>
+                    <field name="tanggal_kegiatan"/>
+                  </tree>
+                </field>
+              </page>
+              <page string="Manifest">
+                <field name="manifest_line" readonly="1">
+                  <tree string="Manifest">
+                    <field name="title"/>
+                    <field name="nama_passpor"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="tanggal_lahir"/>
+                    <field name="tempat_lahir"/>
+                    <field name="tanggal_berlaku"/>
+                    <field name="tanggal_expired"/>
+                    <field name="tipe_kamar"/>
+                    <field name="imigrasi"/>
+                    <field name="umur"/>
+                    <field name="mahrom"/>
+                    <field name="agent"/>
+                  </tree>
+                </field>
+              </page>
+              <page string="HPP Lines">
+                <field name="hpp_line" readonly="1">
+                  <tree string="HPP">
+                    <field name="barang"/>
+                    <field name="quantity"/>
+                    <field name="unit"/>
+                    <field name="unit_price"/>
+                    <field name="subtotal"/>
+                  </tree>
+                </field>
+              </page>
             </notebook>
           </sheet>
         </form>
@@ -172,18 +215,6 @@
     <!-- Menu Dashboard -->
     <menuitem id="menu_dashboard_travel_umroh" name="Travel Umroh" web_icon="ab_travel_umroh,static/description/icon.png"/>
 
-    <!-- Menu Bar Transaction -->
-    <menuitem id="menu_bar_transaction" name="Transaction" parent="menu_dashboard_travel_umroh"/>
-
-    <!-- Menu Item Travel Package-->
-    <menuitem id="menu_item_travel_package" name="Travel Package" parent="menu_bar_transaction" action="travel_package_action"/>
-
-    <!-- Menu Item Sales Order-->
-    <menuitem id="menu_item_sales_order" name="Sales Order" parent="menu_bar_transaction" action="jamaah_action"/>
-
-    <!-- Menu Item Customer Invoice-->
-    <menuitem id="menu_item_customer_invoice" name="Customer Invoice" parent="menu_bar_transaction" action="jamaah_action"/>
-
     <!-- Menu Bar Master Data -->
     <menuitem id="menu_bar_master_data" name="Master Data" parent="menu_dashboard_travel_umroh"/>
 
@@ -201,5 +232,18 @@
 
     <!-- Menu Item Hotels-->
     <menuitem id="menu_item_hotels" name="Hotels" parent="menu_bar_master_data" action="hotels_action"/>
+
+    <!-- Menu Bar Transaction -->
+    <menuitem id="menu_bar_transaction" name="Transaction" parent="menu_dashboard_travel_umroh"/>
+
+    <!-- Menu Item Travel Package-->
+    <menuitem id="menu_item_travel_package" name="Travel Package" parent="menu_bar_transaction" action="travel_package_action"/>
+
+    <!-- Menu Item Sales Order-->
+    <menuitem id="menu_item_sales_order" name="Sales Order" parent="menu_bar_transaction" action="jamaah_action"/>
+
+    <!-- Menu Item Customer Invoice-->
+    <menuitem id="menu_item_customer_invoice" name="Customer Invoice" parent="menu_bar_transaction" action="jamaah_action"/>
+
   </data>
 </odoo>
