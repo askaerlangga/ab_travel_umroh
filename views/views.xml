@@ -1,249 +1,281 @@
 <odoo>
-  <data>
-    <!-- VIEW FORM-->
+    <data>
+        <!-- VIEW FORM-->
 
-    <!-- Inherit View Form Jamaah -->
-    <record id="jamaah_form_inherit" model="ir.ui.view">
-      <field name="name">res.partner.inherit</field>
-      <field name="model">res.partner</field>
-      <field name="inherit_id" ref="base.view_partner_form"/>
-      <field name="arch" type="xml">
-        <xpath expr="//group[1]" position="after">
-          <!-- Additional Information -->
-          <group string="Additional Information" name="additional_information" col="4">
-            <field name="no_ktp"/>
-            <field name="jenis_kelamin"/>
-            <field name="nama_ayah"/>
-            <field name="nama_ibu"/>
-            <field name="pekerjaan_ayah"/>
-            <field name="pekerjaan_ibu"/>
-            <field name="tempat_lahir"/>
-            <field name="tanggal_lahir"/>
-            <field name="pendidikan"/>
-            <field name="golongan_darah"/>
-            <field name="status_hubungan"/>
-            <field name="ukuran_baju"/>
-          </group>
+        <!-- Inherit View Form Jamaah -->
+        <record id="jamaah_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]" position="after">
+                    <!-- Additional Information -->
+                    <group string="Additional Information" name="additional_information" col="4">
+                        <field name="no_ktp"/>
+                        <field name="jenis_kelamin"/>
+                        <field name="nama_ayah"/>
+                        <field name="nama_ibu"/>
+                        <field name="pekerjaan_ayah"/>
+                        <field name="pekerjaan_ibu"/>
+                        <field name="tempat_lahir"/>
+                        <field name="tanggal_lahir"/>
+                        <field name="pendidikan"/>
+                        <field name="golongan_darah"/>
+                        <field name="status_hubungan"/>
+                        <field name="ukuran_baju"/>
+                    </group>
 
-          <!-- Passpor Information -->
-          <group string="Passpor Information" name="passpor_information" col="4">
-            <field name="no_passpor"/>
-            <field name="nama_passpor"/>
-            <field name="tanggal_berlaku"/>
-            <field name="tanggal_expired"/>
-            <field name="imigrasi"/>
-          </group>
+                    <!-- Passpor Information -->
+                    <group string="Passpor Information" name="passpor_information" col="4">
+                        <field name="no_passpor"/>
+                        <field name="nama_passpor"/>
+                        <field name="tanggal_berlaku"/>
+                        <field name="tanggal_expired"/>
+                        <field name="imigrasi"/>
+                    </group>
 
-          <!-- Scan Document -->
-          <group string="Scan Document" name="scan_document" col="4">
-            <field name="scan_passpor" widget="image"/>
-            <field name="scan_buku_nikah" widget="image"/>
-            <field name="scan_ktp" widget="image"/>
-            <field name="scan_kartu_keluarga" widget="image"/>
-          </group>
-        </xpath>
-        <xpath expr="//page[2]" position="inside">
-          <!-- Travel -->
-          <group string="Travel" name="travel">
-            <field name="hotels"/>
-            <field name="airlines"/>
-          </group>
-        </xpath>
-      </field>
-    </record>
+                    <!-- Scan Document -->
+                    <group string="Scan Document" name="scan_document" col="4">
+                        <field name="scan_passpor" widget="image"/>
+                        <field name="scan_buku_nikah" widget="image"/>
+                        <field name="scan_ktp" widget="image"/>
+                        <field name="scan_kartu_keluarga" widget="image"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[2]" position="inside">
+                    <!-- Travel -->
+                    <group string="Travel" name="travel">
+                        <field name="hotels"/>
+                        <field name="airlines"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
 
-    <!-- Inherit View Search Res Partner Inherit -->
-    <record id="res_partner_view_search_inherit" model="ir.ui.view">
-      <field name="name">res.partner.search.inherit</field>
-      <field name="model">res.partner</field>
-      <field name="inherit_id" ref="base.view_res_partner_filter"/>
-      <field name="arch" type="xml">
-        <xpath expr="//filter[@name='inactive']" position="before">
-          <filter string="Airlines" name="airlines" domain="[('airlines','=', 'true')]"/>
-          <filter string="Hotels" name="hotels" domain="[('hotels','=', 'true')]"/>
-        </xpath>
-      </field>
-    </record>
+        <!-- Inherit View Search Res Partner Inherit -->
+        <record id="res_partner_view_search_inherit" model="ir.ui.view">
+            <field name="name">res.partner.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='inactive']" position="before">
+                    <filter string="Airlines" name="airlines" domain="[('airlines','=', 'true')]"/>
+                    <filter string="Hotels" name="hotels" domain="[('hotels','=', 'true')]"/>
+                </xpath>
+            </field>
+        </record>
 
-    <!-- View Tree/List Travel Package -->
-    <record id="travel_package_view_tree" model="ir.ui.view">
-      <field name="name">travel.package.tree</field>
-      <field name="model">travel.package</field>
-      <field name="arch" type="xml">
-        <tree string="Travel Package List">
-          <field name="tanggal_berangkat"/>
-          <field name="tanggal_kembali"/>
-        </tree>
-      </field>
-    </record>
-
-    <!-- View Form Travel Package-->
-    <record id="travel_package_view_form" model="ir.ui.view">
-      <field name="name">travel.package.form</field>
-      <field name="model">travel.package</field>
-      <field name="arch" type="xml">
-        <form string="Travel Package">
-          <sheet>
-            <group string="Informasi Jadwal" col="4">
-              <field name="tanggal_berangkat"/>
-              <field name="tanggal_kembali"></field>
-            </group>
-            <group string="Produk" col="4">
-              <field name="sale_id"/>
-              <field name="package_id"></field>
-            </group>
-            <group string="Seats" col="4">
-              <field name="quota"/>
-              <field name="quota_progress" widget="progressbar"/>
-              <field name="remaining_quota"/>
-            </group>
-            <notebook>
-              <page string="Hotel Lines">
-                <field name="hotels_line">
-                  <tree string="Hotel Lines" editable="top">
-                    <field name="hotels_name"/>
-                    <field name="check_in"/>
-                    <field name="check_out"/>
-                    <field name="kota" readonly="1"/>
-                  </tree>
-                </field>
-              </page>
-              <page string="Airline Lines">
-                <field name="airline_line">
-                  <tree string="Airline" editable="top">
-                    <field name="airline_name"/>
+        <!-- View Tree/List Travel Package -->
+        <record id="travel_package_view_tree" model="ir.ui.view">
+            <field name="name">travel.package.tree</field>
+            <field name="model">travel.package</field>
+            <field name="arch" type="xml">
+                <tree string="Travel Package List">
+                    <field name="name"/>
                     <field name="tanggal_berangkat"/>
-                    <field name="kota_asal"/>
-                    <field name="kota_tujuan"/>
-                  </tree>
-                </field>
-              </page>
-              <page string="Schedule Lines">
-                <field name="schedule_line">
-                  <tree string="Schedule" editable="top">
-                    <field name="schedule_name"/>
-                    <field name="tanggal_kegiatan"/>
-                  </tree>
-                </field>
-              </page>
-              <page string="Manifest">
-                <field name="manifest_line" readonly="1">
-                  <tree string="Manifest">
-                    <field name="title"/>
-                    <field name="nama_passpor"/>
-                    <field name="jenis_kelamin"/>
-                    <field name="tanggal_lahir"/>
-                    <field name="tempat_lahir"/>
-                    <field name="tanggal_berlaku"/>
-                    <field name="tanggal_expired"/>
-                    <field name="tipe_kamar"/>
-                    <field name="imigrasi"/>
-                    <field name="umur"/>
-                    <field name="mahrom"/>
-                    <field name="agent"/>
-                  </tree>
-                </field>
-              </page>
-              <page string="HPP Lines">
-                <field name="hpp_line" readonly="1">
-                  <tree string="HPP">
-                    <field name="barang"/>
-                    <field name="quantity"/>
-                    <field name="unit"/>
-                    <field name="unit_price"/>
-                    <field name="subtotal"/>
-                  </tree>
-                </field>
-              </page>
-            </notebook>
-          </sheet>
-        </form>
-      </field>
-    </record>
+                    <field name="tanggal_kembali"/>
+                </tree>
+            </field>
+        </record>
 
-    <!-- ACTION -->
+        <!-- View Form Travel Package-->
+        <record id="travel_package_view_form" model="ir.ui.view">
+            <field name="name">travel.package.form</field>
+            <field name="model">travel.package</field>
+            <field name="arch" type="xml">
+                <form string="Travel Package">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group string="Informasi Jadwal" col="4">
+                            <field name="tanggal_berangkat"/>
+                            <field name="tanggal_kembali"></field>
+                        </group>
+                        <group string="Produk" col="4">
+                            <field name="product_sale_id"/>
+                            <field name="product_package_id"></field>
+                        </group>
+                        <group string="Seats" col="4">
+                            <field name="quota"/>
+                            <field name="quota_progress" widget="progressbar"/>
+                            <field name="remaining_quota"/>
+                        </group>
+                        <notebook>
+                            <page string="Hotel Lines">
+                                <field name="hotels_line">
+                                    <tree string="Hotel Lines" editable="top">
+                                        <field name="partner_id"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="kota" readonly="1"/>
+                                    </tree>
+                                </field>
+                                <div style="border: 2px solid black;"></div>
+                            </page>
+                            <page string="Airline Lines">
+                                <field name="airline_line">
+                                    <tree string="Airline" editable="top">
+                                        <field name="partner_id"/>
+                                        <field name="tanggal_berangkat"/>
+                                        <field name="kota_asal"/>
+                                        <field name="kota_tujuan"/>
+                                    </tree>
+                                </field>
+                                <div style="border: 2px solid black;"></div>
+                            </page>
+                            <page string="Schedule Lines">
+                                <field name="schedule_line">
+                                    <tree string="Schedule" editable="top">
+                                        <field name="schedule_name"/>
+                                        <field name="tanggal_kegiatan"/>
+                                    </tree>
+                                </field>
+                                <div style="border: 2px solid black;"></div>
+                            </page>
+                            <page string="Manifest">
+                                <field name="manifest_line" readonly="1">
+                                    <tree string="Manifest">
+                                        <field name="title"/>
+                                        <field name="nama_passpor"/>
+                                        <field name="jenis_kelamin"/>
+                                        <field name="tanggal_lahir"/>
+                                        <field name="tempat_lahir"/>
+                                        <field name="tanggal_berlaku"/>
+                                        <field name="tanggal_expired"/>
+                                        <field name="tipe_kamar"/>
+                                        <field name="imigrasi"/>
+                                        <field name="umur"/>
+                                        <field name="mahrom"/>
+                                        <field name="agent"/>
+                                    </tree>
+                                </field>
+                                <div style="border: 2px solid black;"></div>
+                            </page>
+                            <page string="HPP Lines">
+                                <field name="hpp_line" readonly="0">
+                                    <tree string="HPP">
+                                        <field name="barang"/>
+                                        <field name="quantity"/>
+                                        <field name="unit"/>
+                                        <field name="unit_price"/>
+                                        <field name="subtotal"/>
+                                    </tree>
+                                </field>
+                                <div style="border: 2px solid black;"></div>
+                                <div>
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <field name="total" string="Total" widget="monetary"/>
+                                    </group>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <!-- Action/Event Produk -->
-    <record id="sale.product_template_action" model="ir.actions.act_window">
-      <field name="name">Produk</field>
-    </record>
+        <!-- SEQUENCE -->
 
-    <!-- Action/Event Paket Produk -->
-    <record id="mrp.mrp_bom_form_action" model="ir.actions.act_window">
-      <field name="name">Paket Produk</field>
-    </record>
+        <!-- Sequence Travel Package -->
+        <record id="seq_travel_package" model="ir.sequence">
+            <field name="name">Travel Package</field>
+            <field name="code">travel.package</field>
+            <field name="prefix">PP/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+        </record>
 
-    <!-- Action/Event Jamaah -->
-    <record id="jamaah_action" model="ir.actions.act_window">
-      <field name="name">Jamaah</field>
-      <field name="res_model">res.partner</field>
-      <field name="view_mode">kanban,tree,form</field>
-      <field name="context">{'search_default_customer': 1}</field>
-    </record>
+        <!-- ACTION -->
 
-    <!-- Action/Event Airlines -->
-    <record id="airlines_action" model="ir.actions.act_window">
-      <field name="name">Airlines</field>
-      <field name="res_model">res.partner</field>
-      <field name="view_mode">kanban,tree,form</field>
-      <field name="context">{'search_default_airlines': 1, 'default_airlines' : 1, 'default_is_company': True, }</field>
-    </record>
+        <!-- Action/Event Produk -->
+        <record id="sale.product_template_action" model="ir.actions.act_window">
+            <field name="name">Produk</field>
+        </record>
 
-    <!-- Action/Event Hotels -->
-    <record id="hotels_action" model="ir.actions.act_window">
-      <field name="name">Hotels</field>
-      <field name="res_model">res.partner</field>
-      <field name="view_mode">kanban,tree,form</field>
-      <field name="context">{'search_default_hotels': 1, 'default_hotels' : 1, 'default_is_company': True,}</field>
-    </record>
+        <!-- Action/Event Paket Produk -->
+        <record id="mrp.mrp_bom_form_action" model="ir.actions.act_window">
+            <field name="name">Paket Produk</field>
+        </record>
 
-    <!-- Action/Event Travel Package -->
-    <record id="travel_package_action" model="ir.actions.act_window">
-      <field name="name">Travel Package</field>
-      <field name="res_model">travel.package</field>
-      <field name="view_mode">tree,form</field>
-      <field name="help" type="html">
-        <p name="o_view_nocontent_smiling_face">
+        <!-- Action/Event Jamaah -->
+        <record id="jamaah_action" model="ir.actions.act_window">
+            <field name="name">Jamaah</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_customer': 1}</field>
+        </record>
+
+        <!-- Action/Event Airlines -->
+        <record id="airlines_action" model="ir.actions.act_window">
+            <field name="name">Airlines</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_airlines': 1, 'default_airlines' : 1, 'default_is_company': True, }</field>
+        </record>
+
+        <!-- Action/Event Hotels -->
+        <record id="hotels_action" model="ir.actions.act_window">
+            <field name="name">Hotels</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_hotels': 1, 'default_hotels' : 1, 'default_is_company': True,}</field>
+        </record>
+
+        <!-- Action/Event Travel Package -->
+        <record id="travel_package_action" model="ir.actions.act_window">
+            <field name="name">Travel Package</field>
+            <field name="res_model">travel.package</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p name="o_view_nocontent_smiling_face">
             No data here...
-        </p>
-      </field>
-    </record>
+                </p>
+            </field>
+        </record>
 
+        <!-- Action/Event Sales Order -->
+        <record id="sales_order_action" model="ir.actions.act_window">
+            <field name="name">Sales Order</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
 
-    <!-- MENU -->
+        <!-- MENU -->
 
-    <!-- Menu Dashboard -->
-    <menuitem id="menu_dashboard_travel_umroh" name="Travel Umroh" web_icon="ab_travel_umroh,static/description/icon.png"/>
+        <!-- Menu Dashboard -->
+        <menuitem id="menu_dashboard_travel_umroh" name="Travel Umroh" web_icon="ab_travel_umroh,static/description/icon.png"/>
 
-    <!-- Menu Bar Master Data -->
-    <menuitem id="menu_bar_master_data" name="Master Data" parent="menu_dashboard_travel_umroh"/>
+        <!-- Menu Bar Master Data -->
+        <menuitem id="menu_bar_master_data" name="Master Data" parent="menu_dashboard_travel_umroh"/>
 
-    <!-- Menu Item Produk-->
-    <menuitem id="menu_item_produk" name="Produk" parent="menu_bar_master_data" action="sale.product_template_action"/>
+        <!-- Menu Item Produk-->
+        <menuitem id="menu_item_produk" name="Produk" parent="menu_bar_master_data" action="sale.product_template_action"/>
 
-    <!-- Menu Item Paket Produk-->
-    <menuitem id="menu_item_paket_produk" name="Paket Produk" parent="menu_bar_master_data" action="mrp.mrp_bom_form_action"/>
+        <!-- Menu Item Paket Produk-->
+        <menuitem id="menu_item_paket_produk" name="Paket Produk" parent="menu_bar_master_data" action="mrp.mrp_bom_form_action"/>
 
-    <!-- Menu Item Jamaah-->
-    <menuitem id="menu_item_jamaah" name="Jamaah" parent="menu_bar_master_data" action="jamaah_action"/>
+        <!-- Menu Item Jamaah-->
+        <menuitem id="menu_item_jamaah" name="Jamaah" parent="menu_bar_master_data" action="jamaah_action"/>
 
-    <!-- Menu Item Airlines-->
-    <menuitem id="menu_item_airlines" name="Airlines" parent="menu_bar_master_data" action="airlines_action"/>
+        <!-- Menu Item Airlines-->
+        <menuitem id="menu_item_airlines" name="Airlines" parent="menu_bar_master_data" action="airlines_action"/>
 
-    <!-- Menu Item Hotels-->
-    <menuitem id="menu_item_hotels" name="Hotels" parent="menu_bar_master_data" action="hotels_action"/>
+        <!-- Menu Item Hotels-->
+        <menuitem id="menu_item_hotels" name="Hotels" parent="menu_bar_master_data" action="hotels_action"/>
 
-    <!-- Menu Bar Transaction -->
-    <menuitem id="menu_bar_transaction" name="Transaction" parent="menu_dashboard_travel_umroh"/>
+        <!-- Menu Bar Transaction -->
+        <menuitem id="menu_bar_transaction" name="Transaction" parent="menu_dashboard_travel_umroh"/>
 
-    <!-- Menu Item Travel Package-->
-    <menuitem id="menu_item_travel_package" name="Travel Package" parent="menu_bar_transaction" action="travel_package_action"/>
+        <!-- Menu Item Travel Package-->
+        <menuitem id="menu_item_travel_package" name="Travel Package" parent="menu_bar_transaction" action="travel_package_action"/>
 
-    <!-- Menu Item Sales Order-->
-    <menuitem id="menu_item_sales_order" name="Sales Order" parent="menu_bar_transaction" action="jamaah_action"/>
+        <!-- Menu Item Sales Order-->
+        <menuitem id="menu_item_sales_order" name="Sales Order" parent="menu_bar_transaction" action="sales_order_action"/>
 
-    <!-- Menu Item Customer Invoice-->
-    <menuitem id="menu_item_customer_invoice" name="Customer Invoice" parent="menu_bar_transaction" action="jamaah_action"/>
+        <!-- Menu Item Customer Invoice-->
+        <menuitem id="menu_item_customer_invoice" name="Customer Invoice" parent="menu_bar_transaction" action="jamaah_action"/>
 
-  </data>
+    </data>
 </odoo>
