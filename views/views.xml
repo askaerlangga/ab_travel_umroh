@@ -2,8 +2,8 @@
     <data>
         <!-- VIEW FORM-->
 
-        <!-- Inherit View Form Jamaah -->
-        <record id="jamaah_form_inherit" model="ir.ui.view">
+        <!-- Inherit View Form Res Partner -->
+        <record id="res_partner_form_inherit" model="ir.ui.view">
             <field name="name">res.partner.inherit</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
@@ -52,6 +52,88 @@
             </field>
         </record>
 
+        <!-- Inherit View Form Sales Order -->
+        <record id="sales_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="travel_id"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Manifest">
+                        <field name="manifest_line" readonly="0">
+                            <tree string="Passport Line">
+                                <field name="partner_title_id"/>
+                                <field name="nama_passpor"/>
+                                <field name="jenis_kelamin"/>
+                                <field name="tanggal_lahir"/>
+                                <field name="tempat_lahir"/>
+                                <field name="tanggal_berlaku"/>
+                                <field name="tanggal_expired"/>
+                                <field name="tipe_kamar"/>
+                                <field name="imigrasi"/>
+                                <field name="umur"/>
+                                <field name="partner_mahrom_id"/>
+                                <field name="user_id"/>
+                            </tree>
+                            <form string="Passport Line">
+                                <group string="Personal" name="personal" col="4">
+                                    <field name="partner_title_id" readonly="1"/>
+                                    <field name="no_ktp" readonly="1"/>
+                                    <field name="partner_jamaah_id"/>
+                                    <field name="partner_mahrom_id"/>
+                                    <field name="tipe_kamar"/>
+                                    <field name="umur" readonly="1"/>
+                                    <field name="tanggal_lahir" readonly="1"/>
+                                    <field name="tempat_lahir" readonly="1"/>
+                                </group>
+                                <group string="Passport" name="passport" col="4">
+                                    <field name="no_passpor" readonly="1"/>
+                                    <field name="nama_passpor" readonly="1"/>
+                                    <field name="tanggal_berlaku" readonly="1"/>
+                                    <field name="tanggal_expired" readonly="1"/>
+                                    <field name="imigrasi" readonly="1"/>
+                                    <field name="notes"/>
+                                </group>
+                                <group string="Scan Document" name="scan_document" col="4">
+                                    <field name="scan_passpor" widget="image"/>
+                                    <field name="scan_buku_nikah" widget="image"/>
+                                    <field name="scan_ktp" widget="image"/>
+                                    <field name="scan_kartu_keluarga" widget="image"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit View Form Stock Picking -->
+        <record id="stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_print_delivery" type="object" string="Print Delivery" states="done" class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit View Form Account Move -->
+        <record id="account_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_print_invoice" type="object" string="Print InvoiceDelivery" states="done" class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+
         <!-- Inherit View Search Res Partner Inherit -->
         <record id="res_partner_view_search_inherit" model="ir.ui.view">
             <field name="name">res.partner.search.inherit</field>
@@ -72,8 +154,13 @@
             <field name="arch" type="xml">
                 <tree string="Travel Package List">
                     <field name="name"/>
+                    <field name="product_sale_id"/>
                     <field name="tanggal_berangkat"/>
                     <field name="tanggal_kembali"/>
+                    <field name="quota"/>
+                    <field name="remaining_quota"/>
+                    <field name="quota_progress"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -84,6 +171,14 @@
             <field name="model">travel.package</field>
             <field name="arch" type="xml">
                 <form string="Travel Package">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft" class="btn-primary"/>
+                        <button name="action_cancel" type="object" string="Set to Draft" states="confirm"/>
+                        <button name="action_update_jamaah" type="object" string="Update Jamaah" states="confirm" class="btn-primary"/>
+                        <button name="action_close" type="object" string="Done" states="confirm" class="oe_highlight"/>
+                        <button name="action_print_manifest" type="object" string="Cetak Manifest" states="confirm" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                    </header>
                     <sheet>
                         <div class="oe_title">
                             <h1>
@@ -138,7 +233,7 @@
                             <page string="Manifest">
                                 <field name="manifest_line" readonly="1">
                                     <tree string="Manifest">
-                                        <field name="title"/>
+                                        <field name="partner_title_id"/>
                                         <field name="nama_passpor"/>
                                         <field name="jenis_kelamin"/>
                                         <field name="tanggal_lahir"/>
@@ -148,15 +243,15 @@
                                         <field name="tipe_kamar"/>
                                         <field name="imigrasi"/>
                                         <field name="umur"/>
-                                        <field name="mahrom"/>
-                                        <field name="agent"/>
+                                        <field name="partner_mahrom_id"/>
+                                        <field name="user_id"/>
                                     </tree>
                                 </field>
                                 <div style="border: 2px solid black;"></div>
                             </page>
                             <page string="HPP Lines">
                                 <field name="hpp_line" readonly="0">
-                                    <tree string="HPP">
+                                    <tree string="HPP" editable="top">
                                         <field name="barang"/>
                                         <field name="quantity"/>
                                         <field name="unit"/>
@@ -165,11 +260,12 @@
                                     </tree>
                                 </field>
                                 <div style="border: 2px solid black;"></div>
-                                <div>
-                                    <group class="oe_subtotal_footer oe_right">
-                                        <field name="total" string="Total" widget="monetary"/>
-                                    </group>
-                                </div>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="total"/>
+                                    </div>
+                                    <field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
@@ -212,6 +308,7 @@
             <field name="name">Airlines</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('airlines','=', 'true')]</field>
             <field name="context">{'search_default_airlines': 1, 'default_airlines' : 1, 'default_is_company': True, }</field>
         </record>
 
@@ -220,6 +317,7 @@
             <field name="name">Hotels</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('hotels','=', 'true')]</field>
             <field name="context">{'search_default_hotels': 1, 'default_hotels' : 1, 'default_is_company': True,}</field>
         </record>
 
@@ -239,7 +337,15 @@
         <record id="sales_order_action" model="ir.actions.act_window">
             <field name="name">Sales Order</field>
             <field name="res_model">sale.order</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">tree,kanban,form</field>
+        </record>
+
+        <!-- Action/Event Customer Invoice -->
+        <record id="customer_invoice_action" model="ir.actions.act_window">
+            <field name="name">Customer Invoice</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <!-- <field name="view_id" ref=""/> -->
         </record>
 
         <!-- MENU -->
@@ -275,7 +381,7 @@
         <menuitem id="menu_item_sales_order" name="Sales Order" parent="menu_bar_transaction" action="sales_order_action"/>
 
         <!-- Menu Item Customer Invoice-->
-        <menuitem id="menu_item_customer_invoice" name="Customer Invoice" parent="menu_bar_transaction" action="jamaah_action"/>
+        <menuitem id="menu_item_customer_invoice" name="Customer Invoice" parent="menu_bar_transaction" action="customer_invoice_action"/>
 
     </data>
 </odoo>

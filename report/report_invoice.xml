@@ -1,0 +1,178 @@
+<odoo>
+    <template id="body_invoice">
+        <div class="page">
+            <h2 style="text-align:center;">CUSTOMER INVOICE</h2>
+
+            <!-- TABEL 1 -->
+            <div class="d-flex justify-content-center mt-5">
+                <table class="table" style="width:50%;margin:0px 20px;">
+                    <tbody>
+                        <tr>
+                            <td style="width:25%; padding:5px;font-weight: bold;">Customer</td>
+                            <td style="width:75%;padding:5px;">
+                                <t t-esc="o.partner_id.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%; padding:5px;font-weight: bold;">Address</td>
+                            <td style="width:75%;padding:5px;">
+                                <t t-esc="o.partner_id.city"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%; padding:5px;font-weight: bold;">Mobile</td>
+                            <td style="width:75%;padding:5px;">
+                                <t t-esc="o.partner_id.mobile"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table" style="width:50%;margin:0px 20px;">
+                    <tbody>
+                        <tr>
+                            <td style="width:25%; padding:5px;font-weight: bold;">No</td>
+                            <td style="width:75%;padding:5px;">
+                                <t t-esc="o.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%; padding:5px;font-weight: bold;">Tanggal</td>
+                            <td style="width:75%;padding:5px;">
+                                <t t-esc="o.invoice_date"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- TABEL 2 -->
+            <div class="d-flex justify-content-center mt-5 text-center">
+                <table class="table table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <td style="width:25%;padding:5px;font-weight: bold;">Product</td>
+                            <td style="width:25%;padding:5px;font-weight: bold;">QTY</td>
+                            <td style="width:25%;padding:5px;font-weight: bold;">Price Unit</td>
+                            <td style="width:25%;padding:5px;font-weight: bold;">Subtotal</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach='o.invoice_line_ids' t-as="invoice">
+                            <tr>
+                                <td style="padding:5px;">
+                                    <t t-esc="invoice.product_id.name"/>
+                                </td>
+                                <td style="padding:5px; text-align:right">
+                                    <t t-esc="invoice.quantity"/>
+                                </td>
+                                <td style="padding:5px;text-align:right">
+                                    <t t-esc="invoice.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                                <td style="padding:5px;text-align:right">
+                                    <t t-esc="invoice.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td style="padding:5px;font-weight: bold;text-align:right" colspan="3">
+                                Total
+                            </td>
+                            <!-- Hitung Total -->
+                            <t t-set="total" t-value="0"/>
+                            <t t-foreach='o.invoice_line_ids' t-as="invoice">
+                                <t t-set="total" t-value="total + invoice.price_subtotal"/>
+                            </t>
+                            <td style="padding:5px;font-weight: bold;text-align:right">
+                                <t t-esc="total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="font-weight: bold; text-align:center; margin-top:5px;">PAYMENT</p>
+
+            <!-- TABEL 3 -->
+            <div class="d-flex justify-content-center text-center">
+                <table class="table table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <td style="width:33.33%;padding:5px;font-weight: bold;">Method</td>
+                            <td style="width:33.33%;padding:5px;font-weight: bold;">Tanggal</td>
+                            <td style="width:33.33%;padding:5px;font-weight: bold;">Amount</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach='o.get_json_invoice_payment()' t-as="i">
+                            <tr>
+                                <td style="padding:5px;">
+                                    <t t-esc="i['journal_name']"/>
+                                </td>
+                                <td style="padding:5px;">
+                                    <t t-esc="i['date']"/>
+                                </td>
+                                <td style="padding:5px; text-align:right">
+                                    <t t-esc="i['amount']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        </t>
+
+                        <tr>
+                            <td style="padding:5px;font-weight: bold;text-align:right" colspan="2">
+                                Sisa
+                            </td>
+                            <td style="padding:5px;font-weight: bold;text-align:right">
+                                <t t-esc="o.amount_residual" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TABEL 4 -->
+            <div class="d-flex justify-content-center mt-5">
+                <table class="text-center" style="width:33.33%">
+                </table>
+                <table class="text-center border border-dark" style="width:33.33%; font-weight: bold;">
+                    <tbody>
+                        <tr>
+                            <td>
+                            Mengetahui
+                            </td>
+                        </tr>
+                        <tr style="height:150px">
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <t t-esc="o.env.user.name"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="text-center" style="width:33.33%">
+                </table>
+            </div>
+        </div>
+    </template>
+
+
+    <!-- Report Template -->
+
+    <template id="report_invoice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div t-if="report_type == 'html'">
+                    <div>
+                        <t t-call="ab_travel_umroh.body_invoice"/>
+                    </div>
+                </div>
+                <div t-else="">
+                    <t t-call="web.external_layout">
+                        <t t-call="ab_travel_umroh.body_invoice"/>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
